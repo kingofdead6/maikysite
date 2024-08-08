@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full height for the body */
+        }
+
+        header {
+            background-color: #00963c;
+            color: #00ff00;
+            text-align: center;
+            padding: 20px;
+        }
+
+        main {
+            padding: 20px;
+            flex: 1; /* Allow main to expand to fill space */
+        }
+
+        #tastes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .taste-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex: 1 1 calc(33% - 20px);
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .taste-item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .taste-item p {
+            margin: 0;
+            padding: 10px;
+            background-color: #00ff00;
+            color: white;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #00963c;
+            color: #00ff00;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007a2f;
+        }
+
+        @media (max-width: 768px) {
+            .taste-item {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .taste-item {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pizzas</h1>
+    </header>
+
+    <main>
+        <section id="tastes">
+            <div class="taste-item" onclick="addToBasket('Margherita')">
+                <img src="pizzamargareta.jpg" alt="Margherita Pizza">
+                <p>Margherita</p>
+            </div>
+            <div class="taste-item" onclick="addToBasket('Pepperoni')">
+                <img src="pizzachiken.jpg" alt="Pepperoni Pizza">
+                <p>Pepperoni</p>
+            </div>
+            <div class="taste-item" onclick="addToBasket('BBQ Chicken')">
+                <img src="pizzachiken.jpg" alt="BBQ Chicken Pizza">
+                <p>BBQ Chicken</p>
+            </div>
+        </section>
+        <button onclick="goBack()">Back</button>
+    </main>
+
+    <script>
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        function addToBasket(item) {
+            let basket = JSON.parse(localStorage.getItem('basket')) || [];
+            basket.push(item);
+            localStorage.setItem('basket', JSON.stringify(basket));
+            alert(`${item} added to basket`);
+        }
+    </script>
+</body>
+</html>

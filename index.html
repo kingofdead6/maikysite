@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maiky Pizza</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh; /* Ensures the footer is at the bottom */
+        }
+
+        header {
+            background-color: #00963c;
+            color: #00ff00;
+            text-align: center;
+            padding: 20px;
+        }
+
+        main {
+            padding: 20px;
+            padding-bottom: 60px; /* Ensure there's space for the footer */
+        }
+
+        #menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .food-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex: 1 1 calc(33% - 20px);
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .food-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-item h2 {
+            margin: 0;
+            padding: 10px;
+            background-color: #00ff00;
+            color: white;
+        }
+
+        #basket {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #00963c;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+
+        #basket img {
+            width: 40px;
+            height: 40px;
+        }
+
+        #basket-list {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            list-style-type: none;
+            max-height: 300px;
+            overflow-y: auto;
+            width: 200px; /* Adjust width for better display on phones */
+        }
+
+        #clear-basket {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        footer {
+            background-color: #00ad45;
+            color: #00ff00;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
+        }
+
+        @media (max-width: 768px) {
+            .food-item {
+                flex: 1 1 calc(50% - 20px);
+            }
+
+            #basket-list {
+                width: 100%; /* Full width on smaller screens */
+                right: 0;
+                top: 50px; /* Adjust top position to avoid overlap with header */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .food-item {
+                flex: 1 1 100%;
+            }
+
+            #basket-list {
+                width: 100%; /* Full width on mobile devices */
+                right: 0;
+                top: 50px; /* Adjust top position */
+            }
+        }
+
+        df-messenger {
+            --df-messenger-bot-message: #02491e; /* Black background for bot messages */
+            --df-messenger-button-titlebar-color: #00ff00; /* Green title bar */
+            --df-messenger-chat-background-color: #0c4b0057; /* Black chat background */
+            --df-messenger-font-color: #fdfffc; /* White text */
+            --df-messenger-send-icon: #00ff00; /* Green send icon */
+            --df-messenger-user-message: #04af04; /* Green background for user messages */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Maiky Pizza</h1>
+    </header>
+
+    <main>
+        <section id="menu">
+            <div class="food-item" onclick="location.href='pizzas.html'">
+                <img src="pizza.jpg" alt="Pizza">
+                <h2>Pizzas</h2>
+            </div>
+            <div class="food-item" onclick="location.href='tacoss.html'">
+                <img src="tacos.jpg" alt="Tacos">
+                <h2>Tacos</h2>
+            </div>
+            <div class="food-item" onclick="location.href='burger.html'">
+                <img src="burger.jpg" alt="Burgers">
+                <h2>Burgers</h2>
+            </div>
+        </section>
+
+        <section id="tastes" style="display: none;">
+            <h2 id="food-title"></h2>
+            <ul id="tastes-list"></ul>
+            <button onclick="goBack()">Back</button>
+        </section>
+
+        <section id="basket" onclick="toggleBasket()">
+            <img src="cart.png" alt="Cart" id="basket-icon">
+            <ul id="basket-list">
+                <!-- Basket items will be listed here -->
+                <button id="clear-basket" onclick="clearBasket(event)">Clear Basket</button>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Youcef Kahlouche. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function loadBasket() {
+            let basket = JSON.parse(localStorage.getItem('basket')) || [];
+            const basketList = document.getElementById('basket-list');
+            basketList.innerHTML = '';
+            basket.forEach(item => {
+                const basketItem = document.createElement('li');
+                basketItem.innerText = item;
+                basketList.appendChild(basketItem);
+            });
+
+            // Add Clear Basket button at the end
+            const clearButton = document.createElement('button');
+            clearButton.id = 'clear-basket';
+            clearButton.innerText = 'Clear Basket';
+            clearButton.onclick = clearBasket;
+            basketList.appendChild(clearButton);
+        }
+
+        function toggleBasket() {
+            const basketList = document.getElementById('basket-list');
+            basketList.style.display = basketList.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function clearBasket(event) {
+            event.stopPropagation(); // Prevent triggering toggleBasket when clicking the clear button
+            localStorage.removeItem('basket');
+            loadBasket(); // Reload basket to reflect changes
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBasket);
+    </script>
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      chat-icon="cheff.png"
+      chat-title="Maiky_guy"
+      agent-id="2a24c32a-827d-4a97-b7c6-5fce36b5d43b"
+      language-code="en"
+    ></df-messenger>
+</body>
+</html>

@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ff5733;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: relative;
+}
+
+#basket-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+#basket-icon {
+    width: 30px;
+    height: 30px;
+}
+
+main {
+    padding: 1rem;
+}
+
+#menu {
+    display: flex;
+    justify-content: space-around;
+}
+
+.food-item {
+    text-align: center;
+    cursor: pointer;
+}
+
+.food-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+#tastes {
+    display: none;
+}
+
+#tastes-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#tastes-list li {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+#basket-dropdown {
+    position: absolute;
+    top: 60px; /* Adjusted top position to ensure visibility */
+    right: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    display: none; /* Hidden by default */
+}
+
+#basket-dropdown h2 {
+    margin: 0;
+    padding: 0.5rem;
+    background-color: #ff5733;
+    color: white;
+    border-bottom: 1px solid #ccc;
+}
+
+#basket-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#basket-list li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
